@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Media Downloader</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- ffmpeg badge -->
+    <div class="ffmpeg-badge" id="ffmpeg_badge">ffmpeg: checking&hellip;</div>
+
+    <!-- Logo -->
+    <div class="brand">
+      <img src="/static/logo.png" alt="MEDIA DOWNLOADER" />
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+
+      <!-- Controls -->
+      <div class="controls">
+        <div class="input-row">
+          <input id="url" type="text" placeholder="Paste YouTube or SoundCloud URL" autocomplete="off" />
+          <button id="download" class="primary">Download</button>
+        </div>
+
+        <div class="options-row">
+          <div class="option-group">
+            <label>Mode</label>
+            <div class="segmented" id="mode_segmented">
+              <button data-mode="audio" class="active" id="mode_audio">Audio</button>
+              <button data-mode="video" id="mode_video">Video</button>
+            </div>
+          </div>
+
+          <div class="option-group" id="audio_group">
+            <label>Audio format</label>
+            <select class="format-select" id="audio_format">
+              <option value="mp3">MP3 (320kbps)</option>
+            </select>
+          </div>
+
+          <div class="option-group" id="video_group" style="display:none">
+            <label>Video format</label>
+            <select class="format-select" id="video_format">
+              <option value="mp4">MP4</option>
+              <option value="mp3">MP3 (audio)</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="youtube_choice" style="display:none">
+          <span class="muted">YouTube link detected:</span>
+          <div class="segmented" style="margin-top:6px">
+            <button id="yt_audio" data-mode="audio" class="active">Audio</button>
+            <button id="yt_video" data-mode="video">Video</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panels -->
+      <div class="panels-container">
+
+        <!-- Search -->
+        <div class="panel" id="panel_search">
+          <div class="panel-title">Search</div>
+          <div class="search-bar">
+            <input id="search_query" type="text" placeholder="Search YouTube or SoundCloud" />
+            <select id="search_engine">
+              <option value="youtube">YouTube</option>
+              <option value="soundcloud">SoundCloud</option>
+            </select>
+            <button id="search_btn">Search</button>
+          </div>
+          <div class="results" id="search_results">
+            <div class="empty-state">Enter a query to search</div>
+          </div>
+        </div>
+
+        <!-- Recent (default) -->
+        <div class="panel active" id="panel_recent">
+          <div class="panel-title">Recent</div>
+          <div class="list-view" id="list">
+            <div class="empty-state">No downloads yet.</div>
+          </div>
+        </div>
+
+        <!-- Logs -->
+        <div class="panel" id="panel_logs">
+          <div class="panel-title">Logs</div>
+          <div class="log-window" id="logs">
+            <span class="empty-state">Select a download to view logs.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Navigation -->
+      <div class="bottom-nav">
+        <button class="nav-btn" data-panel="panel_logs" id="nav_logs"></button>
+        <button class="nav-btn active" data-panel="panel_recent" id="nav_recent"></button>
+        <button class="nav-btn" data-panel="panel_search" id="nav_search"></button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
