@@ -1,110 +1,60 @@
 # Emo Media Downloader — YouTube & SoundCloud
 > Built with Opencode CLI
 
-> Локальный веб-сервис для поиска и скачивания аудио/видео с **YouTube** и **SoundCloud**.
->
-> Синтвейв-интерфейс, максимальное качество, одна команда для запуска.
-
 <p align="center">
   <img src="static/logo.png" alt="MEDIA DOWNLOADER" width="400">
 </p>
 
-> Локальный веб-сервис для поиска и скачивания аудио/видео с **YouTube** и **SoundCloud**.
->
-> Синтвейв-интерфейс, максимальное качество, одна команда для запуска.
+Downloads audio and video from YouTube and SoundCloud. Runs locally in your browser.
 
 <p align="center">
-  <img src="screenshots/searchfull.jpg" alt="Media Downloader — полный экран" width="720">
+  <img src="screenshots/searchfull.jpg" alt="Main screen" width="720">
 </p>
 
----
+## Features
 
-## Возможности
+- Search YouTube & SoundCloud from the browser (up to 50 results, pagination)
+- Audio: downloads as MP3 320kbps (requires ffmpeg) or native format (opus/m4a without ffmpeg)
+- Video: downloads as MP4 up to 4K (requires ffmpeg) or single stream (without ffmpeg)
+- SoundCloud: search + audio only (no video)
+- Paste a link — auto-detects YouTube video/playlist, SoundCloud track/playlist
+- Logs tab shows real-time download progress
+- Recent tab lists downloaded files
+- ffmpeg auto-detected, auto-downloaded on install
 
-- **Поиск** YouTube и SoundCloud прямо в браузере (до 50 результатов, пагинация стрелками)
-- **Аудио**: скачивание в MP3 320kbps (с ffmpeg) или в родном формате (без ffmpeg)
-- **Видео**: скачивание в MP4 до 4K (с ffmpeg) или best quality single stream (без ffmpeg)
-- **SoundCloud**: поиск и скачивание, только аудио
-- **Авто-определение**: YouTube ссылка, SoundCloud трек/плейлист
-- **Тёмная синтвейв-тема**: magenta-to-black градиент, неоновая эстетика
-- **Логи в реальном времени**: вкладка Logs, обновление каждую секунду
-- **История загрузок**: вкладка Recent со списком всех скачанных файлов
-- **ffmpeg**: авто-детект, без ffmpeg — родные форматы (opus/m4a), с ffmpeg — MP3 320kbps и MP4 4K
-- **Окружение**: Python FastAPI + yt-dlp, всё в одной папке, без Docker
-
-<p align="center">
-  <img src="screenshots/logs.png" alt="Поиск и логи" width="720">
-</p>
-
----
-
-## Установка (Windows)
-
-### 1. Требования
-
-- **Python 3.11 или 3.12** [скачать](https://www.python.org/downloads/)
-- **(Опционально) ffmpeg** — для MP3 320kbps и 4K видео. Если не установлен — работает в родных форматах
-
-### 2. Быстрый старт
+## Quick start (Windows)
 
 ```cmd
 install.bat
 run.bat
 ```
 
-`install.bat` создаёт виртуальное окружение, устанавливает зависимости (FastAPI, yt-dlp) **и скачивает ffmpeg** (~10MB) в `app/ffmpeg.exe`.
+`install.bat` sets up venv, installs deps (FastAPI, yt-dlp), and downloads ffmpeg (~10MB) into `app/ffmpeg.exe`.
 
-`run.bat` запускает сервер.
+`run.bat` starts the server at **http://127.0.0.1:8080**
 
-Открой браузер → **http://127.0.0.1:8080**
+### ffmpeg
 
-### 3. Установка ffmpeg
+If `install.bat` couldn't download ffmpeg:
+- Run `install-ffmpeg.bat`
+- Or put `ffmpeg.exe` manually into `app/ffmpeg.exe`
+- Or add it to system PATH
 
-ffmpeg устанавливается **автоматически** через `install.bat`. Если не сработало:
+Without ffmpeg, audio stays in native format (m4a/opus) and video is limited to single-stream quality (~720p).
 
-- Запусти `install-ffmpeg.bat` из папки проекта
-- Или скачай `ffmpeg.exe` вручную и положи в `app/ffmpeg.exe`
-- Или установи глобально и добавь в `PATH`
+## Usage
 
-<p align="center">
-  <img src="screenshots/ffmpeg.png" alt="ffmpeg статус" width="720">
-</p>
+**Search tab** (bottom nav) — enter a query, choose YouTube or SoundCloud, press Enter. Click Audio or Video on any result. Use arrows to flip pages.
 
----
+**Download by link** — paste a YouTube or SoundCloud URL in the top field, select Audio or Video mode, click Download. Progress shows in Logs tab. Finished files appear in Recent tab.
 
-## Как пользоваться
+**Audio mode** — output is MP3 320kbps (with ffmpeg) or best available audio stream (without ffmpeg).
 
-### Поиск
+**Video mode** — choose MP4 (full video) or MP3 (extract audio from video). With ffmpeg you get best video+audio merged, up to 4K.
 
-1. Переключись на вкладку **SEARCH** (снизу)
-2. Выбери YouTube или SoundCloud
-3. Введи запрос, нажми Enter или Search
-4. Листай результаты стрелками ← →
-5. Нажми **Audio** или **Video** под результатом
+## Config
 
-### Скачивание по ссылке
-
-1. Вставь ссылку в верхнее поле (YouTube или SoundCloud)
-2. Выбери режим: **Audio** (MP3) или **Video** (MP4)
-3. Нажми **Download**
-4. Следи за прогрессом во вкладке **LOGS**
-5. Готовый файл появится во вкладке **RECENT**
-
-### Настройки форматов
-
-- **Audio**: MP3 320kbps (с ffmpeg) / best audio (без ffmpeg)
-- **Video → MP4**: best video + best audio, до 4K (с ffmpeg) / best stream (без ffmpeg)
-- **Video → MP3**: извлечение аудио из видео в MP3
-
-<p align="center">
-  <img src="screenshots/download.png" alt="Процесс скачивания" width="720">
-</p>
-
----
-
-## Конфигурация
-
-Файл `.env` в корне проекта:
+`.env` in project root:
 
 ```env
 HOST=127.0.0.1
@@ -112,61 +62,42 @@ PORT=8080
 DOWNLOAD_DIR=downloads
 ```
 
----
-
-## Структура проекта
+## Project structure
 
 ```
 MediaDownloader/
-  app/
-    main.py          # FastAPI сервер
-  static/
-    index.html       # UI
-    style.css        # Синтвейв-тема
-    app.js           # Клиентская логика
-    logo.png         # Логотип
-    background.png   # Фоновое изображение
-    logs-button.png  # Кнопка LOGS
-    recent-button.png
-    search-button.png
-  design/            # Исходники дизайна
-  downloads/         # Скачанные файлы (создаётся автоматически)
-  venv/              # Виртуальное окружение
-  .env               # Конфиг
-  install.bat        # Установка зависимостей
-  run.bat            # Запуск сервера
-  requirements.txt   # Зависимости Python
+  app/main.py          # FastAPI server
+  static/              # Frontend (HTML, CSS, JS, images)
+  design/              # Source design assets
+  downloads/           # Downloaded files (created on first use)
+  venv/                # Virtual environment
+  .env                 # Config
+  install.bat          # Setup script
+  run.bat              # Start script
+  requirements.txt     # Python deps
 ```
 
----
+All downloads go to `downloads/<job_id>/` with the file and a `download.log`.
 
-## Где скачанные файлы
-
-Все загрузки сохраняются в папку `downloads/<job_id>/`.
-Каждая загрузка — отдельная папка с файлом и `download.log`.
-
-Открой вкладку **RECENT** — там список всех загрузок с ссылками на файлы.
-
----
-
-## Обновление yt-dlp
+## Updating yt-dlp
 
 ```cmd
 .\venv\Scripts\python.exe -m pip install -U yt-dlp
 ```
 
----
+## Requirements
 
-## Скриншоты
+- Python 3.11 or 3.12
+- ffmpeg (optional, auto-downloaded by install.bat)
 
-| # | Что показать | Файл |
-|---|-------------|------|
-| 1 | **Полный экран** — лого, поиск, интерфейс | `screenshots/searchfull.jpg` |
-| 2 | **Логи / Процесс** | `screenshots/logs.png` |
-| 3 | **ffmpeg статус** | `screenshots/ffmpeg.png` |
+## Screenshots
 
----
+| # | What | File |
+|---|------|------|
+| 1 | Full UI — logo, search, controls | `screenshots/searchfull.jpg` |
+| 2 | Logs / Download progress | `screenshots/logs.png` |
+| 3 | ffmpeg badge | `screenshots/ffmpeg.png` |
 
-## Лицензия
+## License
 
 MIT
