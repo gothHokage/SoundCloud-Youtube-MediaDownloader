@@ -100,4 +100,4 @@ All downloads go to `downloads/<job_id>/` with the file and a `download.log`.
 
 ## License
 
-MIT
+MIT © [gothHokage](https://tapy.me/dedio)
